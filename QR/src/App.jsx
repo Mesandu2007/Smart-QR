@@ -1,50 +1,41 @@
-import {useState, useEffect} from "react";
-import QRForm from "./Components/QRForm";
-import QRPreview from "./Components/QRPreview";
+import { useState } from "react";
+import GenerateQR from "./Components/GenerateQR";
 import QRSavedList from "./Components/QRSavedList";
-import "./App.css"
+import "./App.css";
 
-export default function App(){
-  const[qrData, setQrData]=useState("");
-  const[options,setOptions]=useState({
-    size:200,
-    bgColor:"#ffffff",
-    fgColor:"#000000",
+export default function App() {
+  const [activeTab, setActiveTab] = useState("generate");
 
-  });
-  const[savedQrs,setSavedQrs]=useState([]);
+  return (
+    <div className="page">
+      <div className="card">
+        <h1 className="title">QR Code Generator</h1>
 
-  useEffect(()=>{
-    const stored=JSON.parse(localStorage.getItem("savedQrs"))||[];
-    setSavedQrs(stored);
+        {/* Slider Tabs */}
+        <div className="tab-slider">
+          <div
+            className={`tab ${activeTab === "generate" ? "active" : ""}`}
+            onClick={() => setActiveTab("generate")}
+          >
+            Generate QR
+          </div>
+          <div
+            className={`tab ${activeTab === "saved" ? "active" : ""}`}
+            onClick={() => setActiveTab("saved")}
+          >
+            Saved QR
+          </div>
+          {/* Sliding underline */}
+          <div
+            className={`slider ${activeTab === "generate" ? "left" : "right"}`}
+          />
+        </div>
 
-  },[]);
-  const saveQr=()=>{
-    if(!qrData){
-      return;
-    }
-    const newList=[...savedQrs,{qrData,options}];
-    setSavedQrs(newList);
-    localStorage.setItem("savedQrs",JSON.stringify(newList));
-  };
-  return(
-    <div className="app">
-      <h1>QR Code Generator</h1>
-      <QRForm setQrData={setQrData} options={options} setOptions={setOptions}/>
-      <QRPreview qrData={qrData} options={options} onSave={saveQr}/>
-      <QRSavedList savedQrs={savedQrs}/>
-
-
+        {/* Tab Content */}
+        <div className="tab-content">
+          {activeTab === "generate" ? <GenerateQR /> : <QRSavedList />}
+        </div>
+      </div>
     </div>
-  );  
-
-
-
-
-
-
+  );
 }
-
-
-
-
