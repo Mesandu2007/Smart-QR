@@ -5,6 +5,7 @@ export default function GenerateQR() {
   const [qrData, setQrData] = useState("");
   const [savedQrs, setSavedQrs] = useState([]);
   const[fileType,setFileType]=useState("png");
+  const[qrName,setQrName]=useState("");
 
   const [options, setOptions] = useState({
     size: 200,
@@ -48,6 +49,14 @@ export default function GenerateQR() {
 
   return (
     <div className="qr-form">
+      <input
+        type="text"
+        placeholder="QR Name (e.g. My Website)"
+        value={qrName}
+        onChange={(e)=>setQrName(e.target.value)}
+        className="qr-textarea"
+      />  
+
       <textarea
         className="qr-textarea"
         placeholder="Enter text or URL"
