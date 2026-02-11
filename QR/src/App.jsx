@@ -5,13 +5,14 @@ import "./App.css";
 
 export default function App() {
   const [activeTab, setActiveTab] = useState("generate");
+  const[selectedQr,setSelectedQr]=useState(null);
 
   return (
     <div className="page">
       <div className="card">
         <h1 className="title">QR Code Generator</h1>
 
-        {/* Slider Tabs */}
+        
         <div className="tab-slider">
           <div
             className={`tab ${activeTab === "generate" ? "active" : ""}`}
@@ -25,15 +26,18 @@ export default function App() {
           >
             Saved QR
           </div>
-          {/* Sliding underline */}
+          
           <div
             className={`slider ${activeTab === "generate" ? "left" : "right"}`}
           />
         </div>
 
-        {/* Tab Content */}
+        
         <div className="tab-content">
-          {activeTab === "generate" ? <GenerateQR /> : <QRSavedList />}
+          {activeTab === "generate" ?(<GenerateQR />) 
+          :( <QRSavedList  onSelect={setSelectedQr}/>
+
+          )}
         </div>
       </div>
     </div>
