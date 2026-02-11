@@ -1,11 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { QRCodeCanvas } from "qrcode.react";
 
-export default function GenerateQR() {
+export default function GenerateQR({ savedQrs, setSavedQrs }) {
   const [qrData, setQrData] = useState("");
-  const [savedQrs, setSavedQrs] = useState([]);
-  const[fileType,setFileType]=useState("png");
-  const[qrName,setQrName]=useState("");
+  const [qrName, setQrName] = useState("");
+  const [fileType, setFileType] = useState("png");
 
   const [options, setOptions] = useState({
     size: 200,
@@ -13,32 +12,28 @@ export default function GenerateQR() {
     bgColor: "#ffffff",
   });
 
-  useEffect(() => {
-    const stored = JSON.parse(localStorage.getItem("savedQrs")) || [];
-    setSavedQrs(stored);
-  }, []);
-
   const saveQr = () => {
-    if(! qrData || !qrName){
-      alert("Please Enter both QR Name and Data");
+    if (!qrData || !qrName) {
+      alert("Please enter both QR Name and Data");
       return;
     }
-    const newQr={
-      id:Date.now(),
-      name:qrName,
-      link: qrData,
-      options
-    };
-    const updated=[...savedQrs,newQr];
-    setSavedQrs(updated);
-    localStorage.setItem("savedQrs", JSON.stringify(updated));
-    setQrName("");
 
-    
+    const newQr = {
+      id: Date.now(),
+      name: qrName,
+      link: qrData,
+      options,
+    };
+
+    setSavedQrs([...savedQrs, newQr]);
+
+    setQrName("");
+    setQrData("");
   };
+
   const downloadQR = () => {
     const canvas = document.getElementById("qr-canvas");
-    const mimeType = `image/${fileType}`; // "image/png", "image/jpeg", etc.
+    const mimeType = `image/${fileType}`;
     const url = canvas.toDataURL(mimeType);
 
     const a = document.createElement("a");
@@ -46,9 +41,6 @@ export default function GenerateQR() {
     a.download = `qr-code.${fileType}`;
     a.click();
   };
-
-
-  
 
   const copyQR = async () => {
     const canvas = document.getElementById("qr-canvas");
@@ -65,9 +57,9 @@ export default function GenerateQR() {
         type="text"
         placeholder="QR Name (e.g. My Website)"
         value={qrName}
-        onChange={(e)=>setQrName(e.target.value)}
+        onChange={(e) => setQrName(e.target.value)}
         className="qr-textarea"
-      />  
+      />
 
       <textarea
         className="qr-textarea"
@@ -112,20 +104,19 @@ export default function GenerateQR() {
             }
           />
         </label>
+
         <label className="n1">
-          Download as:
+          Download as
           <select
             value={fileType}
             onChange={(e) => setFileType(e.target.value)}
           >
             <option value="png">PNG</option>
             <option value="jpeg">JPEG</option>
-            <option value="WEBP">WEBP</option>
-          </select>  
-
+            <option value="webp">WEBP</option>
+          </select>
         </label>
       </div>
-
 
       {qrData && (
         <div className="preview">
