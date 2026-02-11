@@ -19,10 +19,22 @@ export default function GenerateQR() {
   }, []);
 
   const saveQr = () => {
-    if (!qrData) return;
-    const updated = [...savedQrs, { qrData, options }];
+    if(! qrData || !qrName){
+      alert("Please Enter both QR Name and Data");
+      return;
+    }
+    const newQr={
+      id:Date.now(),
+      name:qrName,
+      link: qrData,
+      options
+    };
+    const updated=[...savedQrs,newQr];
     setSavedQrs(updated);
     localStorage.setItem("savedQrs", JSON.stringify(updated));
+    setQrName("");
+
+    
   };
   const downloadQR = () => {
     const canvas = document.getElementById("qr-canvas");
