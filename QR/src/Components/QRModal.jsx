@@ -1,7 +1,10 @@
 import { QRCodeCanvas } from "qrcode.react";
 
 export default function QRModal({ qr, onClose, onDelete }) {
-  if (!qr) return null;
+  if (!qr){
+    return null;
+
+  }
 
   return (
     <div className="modal-overlay" onClick={onClose}>

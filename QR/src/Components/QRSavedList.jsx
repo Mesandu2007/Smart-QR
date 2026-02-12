@@ -1,18 +1,9 @@
-import { useEffect,useState } from  "react";
-import {QRCodeCanvas} from "qrcode.react";
-
-export default function QRSavedList({onSelect}){
-  const[savedQrs,setSavedQrs]=useState([]);
-
-  useEffect(()=>{
-    const stored=JSON.parse(localStorage.getItem("savedQrs"))||[];
-    setSavedQrs(stored);
-  },[]);
+export default function QRSavedList({savedQrs,onSelect}){
   if(savedQrs.length===0){
-    return <p style={{ textAlign: "center" }}>No saved QR codes</p>;
-
+    return <p style={{textAlign: "center"}}>No saved QR codes!</p>;
   }
-  return (
+  
+  return(
     <div className="saved-list">
       {savedQrs.map((item) => (
         <div
@@ -20,18 +11,12 @@ export default function QRSavedList({onSelect}){
           className="qr-card"
           onClick={() => onSelect(item)}
         >
-          <QRCodeCanvas
-            value={item.link}
-            size={120}
-            fgColor={item.options.fgColor}
-            bgColor={item.options.bgColor}
-          />
+          <QRCodeCanvas value={item.link} size={120} />
+          <p>{item.name}</p>
+          <p>{item.link}</p>
 
-          <p className="qr-name">{item.name}</p>
-          <p className="qr-link">{item.link}</p>
         </div>
       ))}
     </div>
   );
-
 }
