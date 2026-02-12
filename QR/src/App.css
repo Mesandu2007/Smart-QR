@@ -200,7 +200,31 @@
   cursor: pointer;
   transition: all 0.25s ease;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+
 }
+.qr-card p {
+  margin: 5px 0;
+  word-break: break-all;
+  overflow-wrap: break-word;
+  text-align: center;
+}
+.saved-list-container {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.qr-search {
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  width: 100%;
+  max-width: 400px;
+  align-self: center;
+}
+
+
 
 
 .qr-card:hover {
